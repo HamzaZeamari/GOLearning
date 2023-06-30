@@ -2,11 +2,16 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/gin-gonic/gin"
 )
+
+func getMostFrequentWord(c *gin.Context) {
+
+}
 
 func createAWord(c *gin.Context) {
 
@@ -45,5 +50,6 @@ func createAWord(c *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.POST("/service/word=:word", createAWord)
+	router.GET("/service/prefix=:prefix", getMostFrequentWord)
 	router.Run("localhost:8080")
 }
