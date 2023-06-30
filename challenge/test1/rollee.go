@@ -1,5 +1,7 @@
 package rollee
 
+import "sync"
+
 type ID = int
 
 // We suppose L is always valid with len (l.Values) >= 1).
@@ -39,7 +41,18 @@ func FoldChan(initialValue int, f func(int, int) int, ch chan List) map[ID]int {
 }
 
 func FoldChanX(initialValue int, f func(int, int) int, chs ...chan List) map[ID]int {
-	// result := make(map[ID]int)
-	// currentValue := initialValue
-	panic("not implemented")
+	result := make(map[ID]int)
+	var wg sync.WaitGroup
+	wg.Add(len(chs))
+	for _, ch := range chs {
+		go func(ch chan List) {
+			defer wg.Done()
+			channelResult := FoldChan(initialValue, f, ch)
+			for id, value := range channelResult {
+				result[id] += value
+			}
+		}(ch)
+	}
+	wg.Wait()
+	return result
 }
