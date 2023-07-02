@@ -1,9 +1,8 @@
 package rollee
 
 import (
-	"testing"
-
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 func sum(a int, b int) int { return a + b }
