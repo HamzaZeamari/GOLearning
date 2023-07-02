@@ -1,14 +1,20 @@
-FROM golang:last
+# Use the official Go image as the base image
+FROM golang:1.20
 
+# Copy all files from the main project into the container
+COPY . /app
+
+# Set the working directory
 WORKDIR /app
 
-COPY go.mod go.sum ./
-
+# Download the dependencies for the project
 RUN go mod download
-COPY main.go words.json ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-gs-ping
+# Build project
+RUN go build -o main .
 
+# Expose port 8080 for incoming connections
 EXPOSE 8080
 
-CMD ["/docker-gs-ping"]
+# Start the project
+CMD ["./main"]
