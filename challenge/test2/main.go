@@ -5,6 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -13,6 +14,13 @@ import (
 func getMostFrequentWord(c *gin.Context) {
 	// GET the prefix from request
 	prefix := c.Param("prefix")
+
+	// Check if the prefix contains only letters using a regular expression
+	match, _ := regexp.MatchString("^[a-zA-Z]+$", prefix)
+	if !match {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid prefix"})
+		return
+	}
 
 	// Open JSON file
 	file, err := os.OpenFile("words.json", os.O_RDWR|os.O_CREATE, 0644)
