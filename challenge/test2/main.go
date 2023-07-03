@@ -12,7 +12,7 @@ import (
 )
 
 func getMostFrequentWord(c *gin.Context) {
-	// GET the prefix from request
+	// Get the prefix from request
 	prefix := c.Param("prefix")
 
 	// Check if the prefix contains only letters using a regular expression
@@ -61,6 +61,7 @@ func getMostFrequentWord(c *gin.Context) {
 
 func createAWord(c *gin.Context) {
 
+	// Get the word from request
 	word := c.Param("word")
 
 	// Open JSON file
